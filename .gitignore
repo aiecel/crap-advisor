@@ -1,0 +1,30 @@
+crap-advisor-api/.gradle
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+crap-advisor-frontend/node_modules
+crap-advisor-frontend/dist
+crap-advisor-frontend/dist-ssr
+*.local
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
