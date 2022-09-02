@@ -6,7 +6,17 @@ build/
 crap-advisor-frontend/node_modules
 crap-advisor-frontend/dist
 crap-advisor-frontend/dist-ssr
+crap-advisor-frontend/build
 *.local
+.pnp
+.pnp.js
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 ### STS ###
 .apt_generated
