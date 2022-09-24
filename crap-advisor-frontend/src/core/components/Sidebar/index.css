@@ -1,0 +1,12 @@
+.sidebar {
+    background-color: white;
+    min-width: 300px;
+    padding: 10px;
+    border-right: 2px solid black;
+    box-shadow: 4px 0 0 rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.logo {
+    width: 300px;
+}

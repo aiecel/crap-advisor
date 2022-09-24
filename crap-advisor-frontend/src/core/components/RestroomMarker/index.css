@@ -1,0 +1,44 @@
+.marker-container {
+    position: relative;
+    top: -15px;
+    left: -15px;
+    width: 40px;
+    text-align: center;
+}
+
+.marker-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.marker-text {
+    margin: -5px;
+    font-weight: bolder;
+}
+
+.marker-tooltip {
+    border-radius: inherit;
+    background-color: inherit;
+    border: inherit;
+    box-shadow: none;
+    font-weight: bolder;
+}
+
+.outlined {
+    text-shadow:
+            -1px -1px 0 white,
+            0    -1px 0 white,
+            1px  -1px 0 white,
+            1px   0   0 white,
+            1px   1px 0 white,
+            0     1px 0 white,
+            -1px  1px 0 white,
+            -1px  0   0 white;
+}
+
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+    border: none !important;
+}
