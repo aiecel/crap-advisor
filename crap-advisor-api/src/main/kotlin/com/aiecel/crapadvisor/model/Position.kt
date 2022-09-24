@@ -1,6 +1,5 @@
 package com.aiecel.crapadvisor.model
 
-import java.math.BigDecimal
 import javax.persistence.Embeddable
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
@@ -12,10 +11,10 @@ class Position(
     @field:NotNull
     @field:Min(-90)
     @field:Max(90)
-    var latitude: BigDecimal = BigDecimal.ZERO,
+    var latitude: Double = 0.0,
 
     @field:NotNull
     @field:Min(-180)
     @field:Max(180)
-    var longitude: BigDecimal = BigDecimal.ZERO
+    var longitude: Double = 0.0
 )
