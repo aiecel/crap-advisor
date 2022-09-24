@@ -12,7 +12,7 @@ const RestroomMarker = ({props}) => {
     })
 
     return (
-        <Marker position={props.position} icon={icon}>
+        <Marker position={[props.position.latitude, props.position.latitude]} icon={icon}>
             <Tooltip className="marker-tooltip outlined" direction="top" offset={[0, -10]}>{props.name}</Tooltip>
         </Marker>
     );
