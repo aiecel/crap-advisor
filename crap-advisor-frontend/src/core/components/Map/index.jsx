@@ -10,12 +10,15 @@ const Map = ({selectRestroom}) => {
     const [restrooms, setRestrooms] = useState([])
 
     useEffect(() => {
-        fetch(apiUrl + "/restroom/all")
-            .then((response) => response.json())
-            .then((data) => {
-                setRestrooms(data)
-                console.log(`Received ${data.length} restrooms`)
-            })
+        try {
+            fetch(apiUrl + "/restroom/all")
+                .then((response) => response.json())
+                .then((data) => {
+                    setRestrooms(data)
+                })
+        } catch (e) {
+            console.error(e)
+        }
     }, [])
 
     return (
@@ -27,7 +30,7 @@ const Map = ({selectRestroom}) => {
             <ZoomControl position="bottomright"/>
             {
                 restrooms.map((restroom, i) => {
-                    return (<RestroomMarker key={i} restroom={restroom} selectRestroom={selectRestroom}/>)
+                    return <RestroomMarker key={i} restroom={restroom} selectRestroom={selectRestroom}/>
                 })
             }
         </MapContainer>

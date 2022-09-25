@@ -6,9 +6,9 @@ const MainPage = () => {
     const [selectedRestroom, setSelectedRestroom] = useState(null)
 
     const selectRestroom = (restroomToSelect) => {
-        if (selectedRestroom === restroomToSelect) return
-        setSelectedRestroom(restroomToSelect)
-        console.log("Selected restroom with id " + restroomToSelect.id)
+        if (selectedRestroom !== restroomToSelect) {
+            setSelectedRestroom(restroomToSelect)
+        }
     }
 
     return (

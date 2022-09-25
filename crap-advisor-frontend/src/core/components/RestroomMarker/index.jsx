@@ -10,15 +10,17 @@ const RestroomMarker = ({restroom, selectRestroom}) => {
         html:
             `<div class="marker-container">` +
             `<img class="marker-icon" src='${restroomImage}' alt='Toilet'/>` +
-            `<p class="marker-text outlined">${restroom.rating != null ? restroom.rating : ""}</p>` +
+            `<p class="marker-text outlined">${restroom.rating ?? ""}</p>` +
             `</div>`
     })
+
+    const handleMarkerClick = () => selectRestroom(restroom)
 
     return (
         <Marker
             position={[restroom.location.latitude, restroom.location.longitude]}
             icon={icon}
-            eventHandlers={{click: () => selectRestroom(restroom)}}
+            eventHandlers={{click: handleMarkerClick}}
         >
             <Tooltip className="marker-tooltip outlined" direction="top" offset={[0, -10]}>{restroom.name}</Tooltip>
         </Marker>
