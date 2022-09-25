@@ -1,12 +1,39 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import "./index.css"
-import logo from "../../../assets/logo.png"
+import Review from "./Review";
 
-const Sidebar = () => {
+const Sidebar = ({selectedRestroom}) => {
+    const apiUrl = "http://192.168.0.102:8082"
+    const [reviews, setReviews] = useState([])
+
+    useEffect(() => {
+        if (selectedRestroom != null) {
+            fetch(apiUrl + "/review/restroom/" + selectedRestroom.id)
+                .then((response) => response.json())
+                .then((data) => {
+                    setReviews(data)
+                    console.log(`Received ${data.length} reviews for restroom with id ${selectedRestroom.id}`)
+                })
+        }
+    }, [selectedRestroom])
+
+    if (selectedRestroom == null) return (<div className="sidebar"/>)
+
     return (
         <div className="sidebar">
-            <img className={"logo"} src={logo} alt={"Crap Advisor"}/>
-            <p>Тут будет что-нибудь...</p>
+            <div className="sidebar-restroom-header">{selectedRestroom.name}</div>
+            <div className="sidebar-restroom-rating">
+                {selectedRestroom.rating != null ? "★" + selectedRestroom.rating : null}
+            </div>
+            <hr/>
+            <div className="sidebar-reviews-header">
+                {reviews.length === 0 ? "Нет визитов" : "Визитов: " + reviews.length}
+            </div>
+            {
+                reviews.map((review, i) => {
+                    return (<Review key={i} review={review}/>)
+                })
+            }
         </div>
     );
 };

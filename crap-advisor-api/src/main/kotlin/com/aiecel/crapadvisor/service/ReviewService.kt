@@ -20,13 +20,12 @@ class ReviewService(
 
     private val log = KotlinLogging.logger { }
 
+    fun getByRestroomId(restroomId: Long) = reviewRepository.findAllByRestroomId(restroomId)
+
     @Transactional
     fun save(request: AddReviewRequest): Review {
-        if (request.restroomId == null)
-            throw IllegalArgumentException("Restroom id should be specified")
-
-        if (request.marks == null)
-            throw IllegalArgumentException("Marks should be present in a review")
+        requireNotNull(request.restroomId) { "Restroom id should be specified" }
+        requireNotNull(request.marks) { "Marks should be present in a review" }
 
         val restroom = restroomRepository.findById(request.restroomId)
             .orElseThrow { NotFoundException("Restroom with id ${request.restroomId} not found") }
