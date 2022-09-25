@@ -20,7 +20,11 @@ class ReviewService(
 
     private val log = KotlinLogging.logger { }
 
-    fun getByRestroomId(restroomId: Long) = reviewRepository.findAllByRestroomId(restroomId)
+    fun getByRestroomId(restroomId: Long): List<Review> {
+        val reviews = reviewRepository.findAllByRestroomId(restroomId)
+        log.debug("Fetched ${reviews.size} review(s) by restroom id $restroomId")
+        return reviews
+    }
 
     @Transactional
     fun save(request: AddReviewRequest): Review {
