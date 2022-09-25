@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import "./index.css"
 import Review from "./Review";
+import {apiUrl} from "../../../app/constants";
 
 const Sidebar = ({selectedRestroom}) => {
-    const apiUrl = "http://192.168.0.102:8082"
     const [reviews, setReviews] = useState([])
 
     useEffect(() => {

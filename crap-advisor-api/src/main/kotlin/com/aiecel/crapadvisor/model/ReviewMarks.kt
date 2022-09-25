@@ -13,7 +13,7 @@ class ReviewMarks(
     var primaryFixtures: Int?,
 
     @field:Mark
-    @Schema(title = "Rating of the primary fixtures (washbasins etc)", defaultValue = "5")
+    @Schema(title = "Rating of the secondary fixtures (washbasins etc)", defaultValue = "5")
     var secondaryFixtures: Int?,
 
     @field:Mark

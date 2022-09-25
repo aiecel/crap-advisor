@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import "./index.css"
 import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import RestroomMarker from "../RestroomMarker";
+import {apiUrl} from "../../../app/constants";
 
 const Map = ({selectRestroom}) => {
-    const apiUrl = "http://192.168.0.102:8082"
     const defaultPosition = [53.21176, 50.18394]
     const defaultZoom = 13
     const [restrooms, setRestrooms] = useState([])
