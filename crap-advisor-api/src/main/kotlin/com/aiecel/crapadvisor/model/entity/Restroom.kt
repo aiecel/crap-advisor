@@ -1,6 +1,6 @@
 package com.aiecel.crapadvisor.model.entity
 
-import com.aiecel.crapadvisor.model.Position
+import com.aiecel.crapadvisor.model.Location
 import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.Table
@@ -14,6 +14,6 @@ class Restroom(
     var rating: Double? = null,
 
     @Embedded
-    var position: Position = Position()
+    var location: Location = Location()
 
 ) : AbstractEntity()

@@ -1,10 +1,25 @@
 .sidebar {
+    padding: 20px;
+    font-size: 14px;
     background-color: white;
-    min-width: 300px;
-    padding: 10px;
-    border-right: 2px solid black;
-    box-shadow: 4px 0 0 rgba(0, 0, 0, 0.2);
+    width: 300px;
+    border-right: 1px solid black;
     z-index: 1000;
+}
+
+.sidebar-restroom-header {
+    font-size: 32px;
+}
+
+.sidebar-restroom-rating {
+    font-size: 16px;
+}
+
+.sidebar-review-container {
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 5px;
 }
 
 .logo {

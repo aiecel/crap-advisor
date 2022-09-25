@@ -3,19 +3,26 @@ package com.aiecel.crapadvisor.api.controller
 import com.aiecel.crapadvisor.api.model.AddReviewRequest
 import com.aiecel.crapadvisor.mapper.ReviewMapper
 import com.aiecel.crapadvisor.service.ReviewService
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/review")
+@Tag(name = "Reviews")
 class ReviewController(
-    private val reviewService: ReviewService,
+    private val service: ReviewService,
     private val mapper: ReviewMapper
 ) {
 
+    @GetMapping("/restroom/{restroomId}")
+    @Operation(summary = "Get all reviews for specified restroom")
+    fun getAllByRestroomId(@PathVariable("restroomId") restroomId: Long) =
+        service.getByRestroomId(restroomId).map { mapper.map(it) }
+
     @PostMapping
-    fun save(@RequestBody @Validated request: AddReviewRequest) = mapper.map(reviewService.save(request))
+    @Operation(summary = "Save a new review")
+    fun save(@RequestBody @Validated request: AddReviewRequest) =
+        mapper.map(service.save(request))
 }
