@@ -11,7 +11,7 @@ data class RestroomDto(
     val id: Long,
 
     @Schema(title = "Name")
-    val name: String?,
+    val name: String,
 
     @Schema(title = "Rating")
     val rating: Double?,

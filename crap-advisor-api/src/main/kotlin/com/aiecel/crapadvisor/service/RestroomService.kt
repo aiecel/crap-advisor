@@ -18,10 +18,11 @@ class RestroomService(private val restroomRepository: RestroomRepository) {
     }
 
     fun save(request: AddRestroomRequest): Restroom {
+        requireNotNull(request.name) { "Restroom name should be specified" }
         requireNotNull(request.location) { "Restroom position should be specified" }
         val savedRestroom = restroomRepository.save(
             Restroom(
-                name = request.name?.ifBlank { null },
+                name = request.name,
                 location = request.location
             )
         )

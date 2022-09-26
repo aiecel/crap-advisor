@@ -10,11 +10,11 @@ import javax.validation.constraints.NotNull
 data class AddRestroomRequest(
 
     @field:NotBlank
-    @Schema(title = "Name of the restroom")
+    @Schema(title = "Name of the restroom", required = true)
     val name: String?,
 
     @field:NotNull
     @field:Valid
-    @Schema(title = "Restroom coordinates")
+    @Schema(title = "Restroom coordinates", required = true)
     val location: Location?
 )

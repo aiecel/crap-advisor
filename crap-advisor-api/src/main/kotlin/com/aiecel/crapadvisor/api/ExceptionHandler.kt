@@ -14,16 +14,20 @@ class ExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun validationException(ex: MethodArgumentNotValidException): ErrorDto {
-
         val errorMessage = ex.bindingResult.fieldErrors
             .joinToString(", ") { "${it.field} ${it.defaultMessage}" }
-
         return ErrorDto(errorMessage)
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException::class)
     fun notFoundException(ex: NotFoundException): ErrorDto {
+        return ErrorDto(ex.message!!)
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(RuntimeException::class)
+    fun runtimeException(ex: RuntimeException): ErrorDto {
         return ErrorDto(ex.message!!)
     }
 }

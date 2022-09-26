@@ -1,6 +1,7 @@
 package com.aiecel.crapadvisor.model.entity
 
 import com.aiecel.crapadvisor.model.Location
+import javax.persistence.Column
 import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.Table
@@ -9,7 +10,8 @@ import javax.persistence.Table
 @Table(name = "restrooms")
 class Restroom(
 
-    var name: String? = null,
+    @Column(nullable = false)
+    var name: String,
 
     var rating: Double? = null,
 
