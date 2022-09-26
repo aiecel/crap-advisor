@@ -1,29 +1,20 @@
 import React, {useEffect, useState} from "react";
 import "./index.css";
 import Review from "./Review";
-import { apiUrl} from "../../../app/constants";
+import {ApiEndpoint, apiUrl} from "../../../app/constants";
 import {IReview, Restroom} from "../../../app/typings";
+import {AxiosError, AxiosResponse} from "axios";
+import {Api} from "../../../app/api";
+import {useDataApi} from "../../../hooks/useDataApi";
 
 interface ISidebarProps {
     selectedRestroom: Restroom | null;
 }
 
 const Sidebar = ({selectedRestroom}: ISidebarProps): JSX.Element => {
-   const [reviews, setReviews] = useState<IReview[]>([]);
 
-    useEffect(() => {
-        if (selectedRestroom) {
-            try {
-                fetch(apiUrl + "/review/restroom/" + selectedRestroom.id)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        setReviews(data);
-                    });
-            } catch (e) {
-                console.error(e);
-            }
-        }
-    }, [selectedRestroom]);
+    const url = `${ApiEndpoint.GetReviewById}${selectedRestroom && selectedRestroom.id}`
+    const [{data: reviews, isError, isLoading}] = useDataApi<IReview>(url, [], "GET");
 
     return (
         <div className="sidebar">
@@ -37,7 +28,7 @@ const Sidebar = ({selectedRestroom}: ISidebarProps): JSX.Element => {
                     <div className="sidebar-reviews-header">
                         {reviews.length === 0 ? "Нет визитов" : "Визитов: " + reviews.length}
                     </div>
-                    {reviews.map((review: IReview) => {
+                    {reviews.map((review) => {
                         return <Review key={review.id} review={review}/>;
                     })}
                 </>

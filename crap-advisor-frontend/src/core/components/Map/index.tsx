@@ -2,9 +2,12 @@ import React, {useEffect, useState} from "react";
 import "./index.css";
 import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import RestroomMarker from "../RestroomMarker";
-import {apiUrl} from "../../../app/constants";
+import {ApiEndpoint, apiUrl} from "../../../app/constants";
 import {LatLngExpression} from "leaflet";
 import {Restroom} from "../../../app/typings";
+import {Api} from "../../../app/api";
+import {AxiosError, AxiosResponse} from "axios";
+import {useDataApi} from "../../../hooks/useDataApi";
 
 export interface IMapProps {
     selectRestroom: (restroomToSelect: Restroom) => void;
@@ -13,20 +16,7 @@ export interface IMapProps {
 const Map = ({selectRestroom}: IMapProps): JSX.Element => {
     const defaultPosition: LatLngExpression = [53.21176, 50.18394];
     const defaultZoom: number = 13;
-    const [restrooms, setRestrooms] = useState<Restroom[]>([]);
-
-    useEffect(() => {
-        try {
-            fetch(apiUrl + "/restroom/all")
-                .then((response) => response.json())
-                .then((data) => {
-                    setRestrooms(data);
-                });
-        } catch (e) {
-            console.error(e);
-        }
-    }, []);
-
+    const [{data: restrooms, isLoading, isError}] = useDataApi<Restroom>(ApiEndpoint.GetRestrooms, [], 'GET');
     return (
         <MapContainer
             className="map"
