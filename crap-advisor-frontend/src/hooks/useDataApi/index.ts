@@ -9,7 +9,12 @@ type TUseDataApi<T> = {
     isError: boolean;
 }
 
-export const useDataApi = <T>(initialUrl: string, initialData: T[], request: RequestType, body?: any): TUseDataApi<T>[]  => {
+interface IUseDataApiProps<T> {
+    primary: TUseDataApi<T>;
+    setUrl: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const useDataApi = <T>(initialUrl: string, initialData: T[], request: RequestType, body?: any): IUseDataApiProps<T>  => {
     const [data, setData] = React.useState<T[]>(initialData);
     const [url, setUrl] = React.useState<string>(initialUrl);
     const [isLoading, setLoading] = React.useState<boolean>(false);
@@ -22,8 +27,10 @@ export const useDataApi = <T>(initialUrl: string, initialData: T[], request: Req
             try {
                 switch (request) {
                     case "GET": {
-                        const {data}: AxiosResponse = await Api.getFromAPI(url);
-                        setData(data);
+                        if (!url.includes("null")) {
+                            const {data}: AxiosResponse = await Api.getFromAPI(url);
+                            setData(data);
+                        }
                         break;
                     }
                     case "POST": {
@@ -50,5 +57,5 @@ export const useDataApi = <T>(initialUrl: string, initialData: T[], request: Req
         fetchData();
     }, [url]);
 
-    return [{data, isLoading, isError}];
+    return {primary: {data, isError, isLoading}, setUrl};
 }
