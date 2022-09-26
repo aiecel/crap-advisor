@@ -14,7 +14,7 @@ interface ISidebarProps {
 const Sidebar = ({selectedRestroom}: ISidebarProps): JSX.Element => {
 
     const url = `${ApiEndpoint.GetReviewById}${selectedRestroom && selectedRestroom.id}`;
-    const {setUrl, primary: {data: reviews, isLoading, isError}} = useDataApi<IReview>(url, [], "GET");
+    const {setUrl, state: {data: reviews}} = useDataApi<IReview>(url, [], "GET");
 
     useEffect(() => {
         if (selectedRestroom) {

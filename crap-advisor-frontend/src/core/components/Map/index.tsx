@@ -16,7 +16,7 @@ export interface IMapProps {
 const Map = ({selectRestroom}: IMapProps): JSX.Element => {
     const defaultPosition: LatLngExpression = [53.21176, 50.18394];
     const defaultZoom: number = 13;
-    const {primary: {data: restrooms, isError, isLoading}, setUrl} = useDataApi<Restroom>(ApiEndpoint.GetRestrooms, [], 'GET');
+    const {state: {data: restrooms}} = useDataApi<Restroom>(ApiEndpoint.GetRestrooms, [], 'GET');
     return (
         <MapContainer
             className="map"

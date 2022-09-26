@@ -1,61 +1,97 @@
-import React, {useEffect} from "react";
+import React, {ReducerAction} from "react";
 import {AxiosError, AxiosResponse} from "axios";
 import {RequestType} from "../../app/typings";
 import {Api} from "../../app/api";
 
-type TUseDataApi<T> = {
+type Action<T> = { type: 'PENDING' } | { type: 'FETCH_SUCCESS', payload: T[] } | { type: 'FETCH_FAILURE' }
+
+type State<T> = {
     data: T[];
     isLoading: boolean;
     isError: boolean;
 }
 
 interface IUseDataApiProps<T> {
-    primary: TUseDataApi<T>;
+    state: State<T>;
     setUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const useDataApi = <T>(initialUrl: string, initialData: T[], request: RequestType, body?: any): IUseDataApiProps<T>  => {
-    const [data, setData] = React.useState<T[]>(initialData);
-    const [url, setUrl] = React.useState<string>(initialUrl);
-    const [isLoading, setLoading] = React.useState<boolean>(false);
-    const [isError, setIsError] = React.useState<boolean>(false);
+const createDataFetchReducer = <T>() => (state: State<T>, action: Action<T>): State<T> => {
+    switch (action.type) {
+        case 'PENDING':
+            return {
+                ...state,
+                isLoading: true,
+                isError: false
+            };
+        case 'FETCH_SUCCESS':
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                data: action.payload,
+            };
+        case 'FETCH_FAILURE':
+            return {
+                ...state,
+                isLoading: false,
+                isError: true,
+            };
+        default:
+            throw new Error();
+    }
+}
 
-    useEffect(() => {
+
+export const useDataApi = <T>(initialUrl: string, initialData: T[], request: RequestType, body?: any): IUseDataApiProps<T> => {
+    const initialState: State<T> = {
+        isLoading: false,
+        isError: false,
+        data: []
+    }
+    const [url, setUrl] = React.useState<string>(initialUrl);
+    const dataFetchReducer = createDataFetchReducer<T>();
+    const [state, dispatch] = React.useReducer(dataFetchReducer, initialState)
+
+    React.useEffect(() => {
+        let didCancel: boolean = false;
         const fetchData = async () => {
-            setIsError(false);
-            setLoading(true);
+            dispatch({type: 'PENDING'});
             try {
                 switch (request) {
                     case "GET": {
                         if (!url.includes("null")) {
                             const {data}: AxiosResponse = await Api.getFromAPI(url);
-                            setData(data);
+                            if (!didCancel) {
+                                dispatch({type: 'FETCH_SUCCESS', payload: data});
+                            }
                         }
                         break;
                     }
                     case "POST": {
                         const {data}: AxiosResponse = await Api.postFromAPI(body, url);
-                        setData(data);
                         break;
                     }
                     case "PUT": {
                         const {data}: AxiosResponse = await Api.postFromAPI(body, url);
-                        setData(data);
                         break;
                     }
                     default: {
-                        setData(initialData);
+                        dispatch({type: 'FETCH_SUCCESS', payload: initialData});
                     }
                 }
             } catch (e: unknown) {
-                console.error(e as AxiosError);
-                setIsError(true);
-            } finally {
-                setLoading(false);
+                if (!didCancel) {
+                    console.error(e as AxiosError);
+                }
             }
         }
         fetchData();
+
+        return () => {
+            didCancel = true;
+        }
     }, [url]);
 
-    return {primary: {data, isError, isLoading}, setUrl};
+    return {state, setUrl};
 }
