@@ -2,10 +2,7 @@ package com.aiecel.crapadvisor.model.entity
 
 import org.hibernate.annotations.CreationTimestamp
 import java.time.ZonedDateTime
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.MappedSuperclass
+import javax.persistence.*
 
 @MappedSuperclass
 abstract class AbstractEntity {
@@ -15,5 +12,6 @@ abstract class AbstractEntity {
     val id: Long = -1
 
     @CreationTimestamp
+    @Column(nullable = false)
     val created: ZonedDateTime = ZonedDateTime.now()
 }

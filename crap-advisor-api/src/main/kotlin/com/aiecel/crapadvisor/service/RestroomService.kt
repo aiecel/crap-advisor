@@ -11,13 +11,18 @@ class RestroomService(private val restroomRepository: RestroomRepository) {
 
     private val log = KotlinLogging.logger { }
 
-    fun getAll() = restroomRepository.findAll().toList()
+    fun getAll(): List<Restroom> {
+        val restrooms = restroomRepository.findAll().toList()
+        log.debug("Fetched ${restrooms.size} restroom(s)")
+        return restrooms
+    }
 
     fun save(request: AddRestroomRequest): Restroom {
+        requireNotNull(request.name) { "Restroom name should be specified" }
         requireNotNull(request.location) { "Restroom position should be specified" }
         val savedRestroom = restroomRepository.save(
             Restroom(
-                name = request.name?.ifBlank { null },
+                name = request.name,
                 location = request.location
             )
         )

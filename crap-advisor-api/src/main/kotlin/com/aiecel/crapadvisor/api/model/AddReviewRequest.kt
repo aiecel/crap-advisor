@@ -10,12 +10,12 @@ import javax.validation.Valid
 data class AddReviewRequest(
 
     @field:NotNull
-    @Schema(title = "Id of the reviewing restroom")
+    @Schema(title = "Id of the reviewing restroom", required = true)
     val restroomId: Long?,
 
     @field:NotNull
     @field:Valid
-    @Schema(title = "Review marks")
+    @Schema(title = "Review marks", required = true)
     val marks: ReviewMarks?,
 
     @field:Length(max = 1000)
