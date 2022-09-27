@@ -1,12 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import "./index.css";
 import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import RestroomMarker from "../RestroomMarker";
-import {ApiEndpoint, apiUrl} from "../../../app/constants";
+import {ApiEndpoint} from "../../../app/constants";
 import {LatLngExpression} from "leaflet";
 import {Restroom} from "../../../app/typings";
-import {Api} from "../../../app/api";
-import {AxiosError, AxiosResponse} from "axios";
 import {useDataApi} from "../../../hooks/useDataApi";
 
 export interface IMapProps {
