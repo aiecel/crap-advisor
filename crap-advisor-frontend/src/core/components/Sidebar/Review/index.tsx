@@ -1,7 +1,12 @@
-import React from 'react';
-import "./index.css"
+import React from "react";
+import "./index.css";
+import {IReview} from "../../../../app/typings";
 
-const Review = ({review}) => {
+interface IReviewProps {
+    review: IReview;
+}
+
+const Review = ({review}: IReviewProps): JSX.Element => {
     return (
         <div className="sidebar-review-container">
             <div className="sidebar-review-rating">{review.rating}</div>
