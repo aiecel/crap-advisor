@@ -36,8 +36,8 @@
 .section-restroom {
     --hue: 200;
     background: linear-gradient(
-            hsl(calc(var(--hue) + 10), 100%, 90%),
-            hsl(var(--hue), 100%, 75%)
+            hsl(calc(var(--hue) + 10), 100%, 85%),
+            hsl(var(--hue), 100%, 65%)
     );
     padding: 5px 20px 40px 20px;
     text-align: center;
@@ -46,7 +46,7 @@
 }
 
 .restroom-created {
-    color: hsl(var(--hue), 50%, 60%);
+    color: hsl(var(--hue), 70%, 50%);
     margin: 0;
 }
 
