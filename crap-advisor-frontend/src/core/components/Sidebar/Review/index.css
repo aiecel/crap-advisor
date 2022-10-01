@@ -1,6 +1,29 @@
-.sidebar-review-container {
-    border: 1px solid black;
-    border-radius: 4px;
-    padding: 5px;
+.review {
+    display: grid;
+    grid-template-columns: 50px auto;
+    color: #252525;
+    padding: 15px 20px;
+}
+
+.review:hover {
+    background-color: #fafafa;
+}
+
+.review-rating {
+    font-size: 24px;
+    text-align: center;
+    margin: auto 20px auto 0;
+}
+
+.review-right {
+    margin: auto 0;
+}
+
+.review-created {
+    color: #ababab;
+}
+
+.review-description {
     margin-top: 5px;
+    line-height: 18px;
 }

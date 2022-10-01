@@ -1,6 +1,10 @@
 server.port: 8082
 
+---
+
 spring:
+  profiles:
+    active: test
   jpa:
     hibernate:
       ddl-auto: update
@@ -9,3 +13,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/crap-advisor
     username: postgres
     password: postgres
+logging:
+  level:
+    com.aiecel.crapadvisor: debug

@@ -1,6 +1,6 @@
 package com.aiecel.crapadvisor.api.model
 
-import com.aiecel.crapadvisor.model.ReviewMarks
+import com.aiecel.crapadvisor.model.Marks
 import com.sun.istack.NotNull
 import io.swagger.v3.oas.annotations.media.Schema
 import org.hibernate.validator.constraints.Length
@@ -16,7 +16,7 @@ data class AddReviewRequest(
     @field:NotNull
     @field:Valid
     @Schema(title = "Review marks", required = true)
-    val marks: ReviewMarks?,
+    val marks: Marks?,
 
     @field:Length(max = 1000)
     @Schema(title = "Comment")

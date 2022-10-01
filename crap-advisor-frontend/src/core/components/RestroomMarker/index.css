@@ -13,7 +13,8 @@
 
 .marker-text {
     margin: -5px;
-    font-weight: bolder;
+    font-family: "Literata", serif;
+    font-weight: 700;
 }
 
 .marker-tooltip {
@@ -21,7 +22,9 @@
     background-color: inherit;
     border: inherit;
     box-shadow: none;
-    font-weight: bolder;
+    font-family: "Literata", serif;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .outlined {

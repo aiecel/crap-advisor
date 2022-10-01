@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import "./index.css";
 import Review from "./Review";
-import {ApiEndpoint, apiUrl} from "../../../app/constants";
+import {ApiEndpoint} from "../../../app/constants";
 import {IReview, Restroom} from "../../../app/typings";
-import {AxiosError, AxiosResponse} from "axios";
-import {Api} from "../../../app/api";
 import {useDataApi} from "../../../hooks/useDataApi";
 
 interface ISidebarProps {
@@ -13,7 +11,7 @@ interface ISidebarProps {
 
 const Sidebar = ({selectedRestroom}: ISidebarProps): JSX.Element => {
 
-    const url = `${ApiEndpoint.GetReviewById}${selectedRestroom && selectedRestroom.id}`;
+    const url = `${ApiEndpoint.GetAllReviewsByRestroomId}${selectedRestroom && selectedRestroom.id}`;
     const {setUrl, state: {data: reviews}} = useDataApi<IReview>(url, [], "GET");
 
     useEffect(() => {
@@ -22,21 +20,35 @@ const Sidebar = ({selectedRestroom}: ISidebarProps): JSX.Element => {
         }
     }, [selectedRestroom])
 
+    let hue
+    if (selectedRestroom && selectedRestroom.rating) {
+        hue = (selectedRestroom.rating - 1) * 20
+    }
+
     return (
         <div className="sidebar">
+            <p className="logo">Crap Advisor</p>
+            {!selectedRestroom && (
+                <>
+                    <p className="welcome">Добро пожаловать!<br/>Выберите уборную...</p>
+                </>
+            )}
             {selectedRestroom && (
                 <>
-                    <div className="sidebar-restroom-header">{selectedRestroom.name}</div>
-                    <div className="sidebar-restroom-rating">
-                        {selectedRestroom.rating && `★${selectedRestroom.rating}`}
-                    </div>
-                    <hr/>
-                    <div className="sidebar-reviews-header">
-                        {reviews.length === 0 ? "Нет визитов" : "Визитов: " + reviews.length}
-                    </div>
-                    {reviews.map((review) => {
-                        return <Review key={review.id} review={review}/>;
-                    })}
+                    <section className="section-restroom" style={{"--hue": hue} as React.CSSProperties}>
+                        <p className="restroom-created">{new Date(selectedRestroom.created).toLocaleDateString()}</p>
+                        <p className="restroom-name">{selectedRestroom.name}</p>
+                        {selectedRestroom.rating && <p className="restroom-rating">{selectedRestroom.rating}</p>}
+                        <p className="restroom-reviews-count">
+                            {reviews.length === 0 ? "Нет визитов" : "Визитов: " + reviews.length}
+                        </p>
+                    </section>
+                    <section className="section-reviews">
+                        <button className="button-add-review">Добавить отзыв</button>
+                        {reviews.map((review) => {
+                            return <Review key={review.id} review={review}/>;
+                        })}
+                    </section>
                 </>
             )}
         </div>

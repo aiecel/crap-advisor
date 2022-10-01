@@ -1,5 +1,5 @@
 import React from "react";
-import {Marker, Tooltip} from "react-leaflet";
+import {Marker, Tooltip, useMap} from "react-leaflet";
 import L from "leaflet";
 import restroomImage from "../../../assets/restroomMarker.png";
 import "./index.css";
@@ -8,7 +8,7 @@ import {IMapProps} from "../Map";
 import {LeafletEvent, LatLngExpression} from 'leaflet'
 
 interface IRestroomMakerProps extends Pick<IMapProps, 'selectRestroom'> {
-    restroom: Restroom;
+    restroom: Restroom
 }
 
 const RestroomMarker = ({restroom, selectRestroom}: IRestroomMakerProps) => {
@@ -21,7 +21,11 @@ const RestroomMarker = ({restroom, selectRestroom}: IRestroomMakerProps) => {
             `</div>`,
     });
 
-    const handleMarkerClick = (event: LeafletEvent): void => selectRestroom(restroom);
+    const map = useMap()
+    const handleMarkerClick = (event: LeafletEvent): void => {
+        selectRestroom(restroom);
+        map.setView([restroom.location.latitude, restroom.location.longitude], map.getZoom())
+    }
 
     return (
         <Marker
