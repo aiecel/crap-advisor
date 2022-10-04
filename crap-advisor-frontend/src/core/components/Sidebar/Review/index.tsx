@@ -1,6 +1,7 @@
 import React from "react";
-import "./index.css";
 import {IReview} from "../../../../app/typings";
+import "./index.css";
+import "../../../../style/main.css";
 
 interface IReviewProps {
     review: IReview;

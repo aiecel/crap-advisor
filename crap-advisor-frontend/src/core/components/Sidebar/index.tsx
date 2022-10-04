@@ -1,9 +1,10 @@
 import React, {useEffect} from "react";
-import "./index.css";
 import Review from "./Review";
 import {ApiEndpoint} from "../../../app/constants";
 import {IReview, Restroom} from "../../../app/typings";
 import {useDataApi} from "../../../hooks/useDataApi";
+import "./index.css";
+import "../../../style/main.css";
 
 interface ISidebarProps {
     selectedRestroom: Restroom | null;
@@ -20,11 +21,6 @@ const Sidebar = ({selectedRestroom}: ISidebarProps): JSX.Element => {
         }
     }, [selectedRestroom])
 
-    let hue
-    if (selectedRestroom && selectedRestroom.rating) {
-        hue = (selectedRestroom.rating - 1) * 20
-    }
-
     return (
         <div className="sidebar">
             <p className="logo">Crap Advisor</p>
@@ -35,7 +31,7 @@ const Sidebar = ({selectedRestroom}: ISidebarProps): JSX.Element => {
             )}
             {selectedRestroom && (
                 <>
-                    <section className="section-restroom" style={{"--hue": hue} as React.CSSProperties}>
+                    <section className="section-restroom">
                         <p className="restroom-created">{new Date(selectedRestroom.created).toLocaleDateString()}</p>
                         <p className="restroom-name">{selectedRestroom.name}</p>
                         {selectedRestroom.rating && <p className="restroom-rating">{selectedRestroom.rating}</p>}

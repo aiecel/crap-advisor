@@ -6,7 +6,7 @@
 }
 
 .review:hover {
-    background-color: #f5f5f5;
+    background-color: var(--light-gray);
 }
 
 .review-rating {
@@ -20,7 +20,7 @@
 }
 
 .review-created {
-    color: #ababab;
+    color: var(--hard-gray);
 }
 
 .review-description {

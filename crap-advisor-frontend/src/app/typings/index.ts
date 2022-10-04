@@ -1,6 +1,6 @@
 import {Method} from "axios";
 
-export type TLocation = {
+export type Location = {
     latitude: number;
     longitude: number;
 };
@@ -8,7 +8,7 @@ export type TLocation = {
 export interface Restroom {
     id: number;
     created: string;
-    location: TLocation;
+    location: Location;
     name: string;
     rating: number | null;
 }
@@ -32,3 +32,5 @@ export interface IReview {
 export type Primitive = string | boolean | number;
 
 export type RequestType = Extract<Method, "GET" | "POST" | "DELETE" | "PUT">;
+
+export type $needToFix = any;

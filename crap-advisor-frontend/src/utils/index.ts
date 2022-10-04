@@ -1,5 +1,6 @@
-import {Primitive} from "../app/typings";
+import {Location, Primitive} from "../app/typings";
 import {isNil} from 'lodash';
+import {LatLngExpression} from "leaflet";
 
 export const params2form = (
     payload: Record<string, Primitive | Primitive[]>
@@ -20,3 +21,5 @@ export const params2form = (
             )}`;
         })
         .join('&');
+
+export const toLatLngExpression = (location: Location): LatLngExpression => [location.latitude, location.longitude]

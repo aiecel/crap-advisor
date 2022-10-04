@@ -1,25 +1,24 @@
 import React from "react";
-import "./index.css";
-import {MapContainer, TileLayer, ZoomControl, useMap} from "react-leaflet";
+import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import RestroomMarker from "../RestroomMarker";
-import {ApiEndpoint} from "../../../app/constants";
-import {LatLngExpression} from "leaflet";
+import {ApiEndpoint, defaultLocation, defaultZoom} from "../../../app/constants";
 import {Restroom} from "../../../app/typings";
 import {useDataApi} from "../../../hooks/useDataApi";
+import {toLatLngExpression} from "../../../utils";
+import "./index.css";
+import "../../../style/main.css";
 
 export interface IMapProps {
     selectRestroom: (restroomToSelect: Restroom) => void;
 }
 
 const Map = ({selectRestroom}: IMapProps): JSX.Element => {
-    const defaultPosition: LatLngExpression = [53.21176, 50.18394];
-    const defaultZoom: number = 13;
     const {state: {data: restrooms}} = useDataApi<Restroom>(ApiEndpoint.GetAllRestrooms, [], 'GET');
 
     return (
         <MapContainer
             className="map"
-            center={defaultPosition}
+            center={toLatLngExpression(defaultLocation)}
             zoom={defaultZoom}
             zoomControl={false}
         >

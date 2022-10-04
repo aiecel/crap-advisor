@@ -1,48 +1,46 @@
-import React from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Marker, Tooltip, useMap} from "react-leaflet";
 import L from "leaflet";
-import "./index.css";
 import {Restroom} from "../../../app/typings";
 import {IMapProps} from "../Map";
-import {LeafletEvent, LatLngExpression} from 'leaflet'
-
-import restroom1 from "../../../assets/restroom_2.png";
-import restroom2 from "../../../assets/restroom_2.png";
-import restroom3 from "../../../assets/restroom_4.png";
-import restroom4 from "../../../assets/restroom_4.png";
-import restroom5 from "../../../assets/restroom_5.png";
+import {LatLngExpression} from 'leaflet'
+import {toLatLngExpression} from "../../../utils";
+import {defaultRestroomMarkerImage, restroomMarkerImages} from "../../../app/constants";
+import "./index.css";
+import "../../../style/main.css";
 
 interface IRestroomMakerProps extends Pick<IMapProps, 'selectRestroom'> {
     restroom: Restroom
 }
 
-const RestroomMarker = ({restroom, selectRestroom}: IRestroomMakerProps) => {
+const RestroomMarker = ({restroom, selectRestroom}: IRestroomMakerProps): JSX.Element => {
+    const [image, setImage] = useState(defaultRestroomMarkerImage)
+    const [rating, setRating] = useState<number | null>(null)
 
-    const iconImages = [restroom1, restroom2, restroom3, restroom4, restroom5]
-    let currentImage = restroom4
-
-    if (restroom.rating) {
-        currentImage = iconImages[Math.round(restroom.rating) - 1]
-    }
-
-    const icon = L.divIcon({
+    const icon = useMemo(() => L.divIcon({
         className: "icon",
         html:
             `<div class="marker-container">` +
-            `<img class="marker-icon" src='${currentImage}' alt='Toilet'/>` +
-            `<p class="marker-text outlined">${restroom.rating ?? ""}</p>` +
+            `<img class="marker-icon" src='${image}' alt='Toilet'/>` +
+            `<p class="marker-text outlined">${rating ?? ""}</p>` +
             `</div>`,
-    });
+    }), [image, rating])
+
+    useEffect(() => {
+        setRating(restroom.rating)
+        setImage(restroom.rating ?
+            restroomMarkerImages[Math.round(restroom.rating) - 1] : defaultRestroomMarkerImage)
+    }, [restroom.rating])
 
     const map = useMap()
-    const handleMarkerClick = (event: LeafletEvent): void => {
+    const handleMarkerClick = (): void => {
         selectRestroom(restroom);
-        map.setView([restroom.location.latitude, restroom.location.longitude], map.getZoom())
+        map.setView(toLatLngExpression(restroom.location), map.getZoom())
     }
 
     return (
         <Marker
-            position={[restroom.location.latitude, restroom.location.longitude] as LatLngExpression}
+            position={toLatLngExpression(restroom.location) as LatLngExpression}
             icon={icon}
             eventHandlers={{click: handleMarkerClick}}
         >
