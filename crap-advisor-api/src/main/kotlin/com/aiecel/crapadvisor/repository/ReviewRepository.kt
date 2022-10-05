@@ -9,5 +9,5 @@ interface ReviewRepository : JpaRepository<Review, Long> {
     @Query("select avg(r.rating) from Review r where r.restroom.id = ?1")
     fun getAverageReviewRatingByRestroomId(restroomId: Long): Double
 
-    fun findAllByRestroomId(restroomId: Long): List<Review>
+    fun findAllByRestroomIdOrderByCreatedDesc(restroomId: Long): List<Review>
 }

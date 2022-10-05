@@ -6,7 +6,7 @@ import javax.persistence.Embeddable
 
 @Embeddable
 @Schema(title = "Review Marks")
-class ReviewMarks(
+class Marks(
 
     @field:Mark
     @Schema(title = "Rating of the primary fixtures (toilets etc)", defaultValue = "5")

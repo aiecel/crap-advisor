@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300;7..72,400;7..72,500;7..72,700&family=Prata&display=swap');
+
 .mainContainer {
-    font-family: "Arial", serif;
-    display: flex;
+    font-family: "Literata", sans-serif;
+    display: grid;
+    grid-template-columns: 380px auto;
     width: 100vw;
     height: 100vh;
     padding: 0;

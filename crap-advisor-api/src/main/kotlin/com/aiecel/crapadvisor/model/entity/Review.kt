@@ -1,6 +1,6 @@
 package com.aiecel.crapadvisor.model.entity
 
-import com.aiecel.crapadvisor.model.ReviewMarks
+import com.aiecel.crapadvisor.model.Marks
 import javax.persistence.*
 
 @Entity
@@ -12,7 +12,7 @@ class Review(
     val restroom: Restroom,
 
     @Embedded
-    val reviewMarks: ReviewMarks,
+    val marks: Marks,
 
     val rating: Double?,
 

@@ -1,10 +1,25 @@
-export const apiUrl = "http://25.38.182.18:8082";
+import badRestroom from "../../assets/restroom_2.png";
+import commonRestroom from "../../assets/restroom_4.png";
+import goldenRestroom from "../../assets/restroom_5.png";
+import {Location} from "../typings";
 
-export type $needToFix = any;
+// Api
+export const apiUrl = "http://192.168.0.102:8082";
 
 export enum ApiEndpoint {
-    GetRestrooms = '/restroom/all',
-    PostRestroom = '/restroom',
-    GetReviewById = '/review/restroom/',
-    PostReview = '/review',
+    GetAllRestrooms = '/restroom/all',
+    AddRestroom = '/restroom',
+    GetAllReviewsByRestroomId = '/review/restroom/',
+    AddReview = '/review',
 }
+
+// Map
+export const defaultLocation: Location = {latitude: 53.21176, longitude: 50.18394}
+export const defaultZoom: number = 12
+
+// Restroom Markers
+export const defaultRestroomMarkerImage = commonRestroom
+export const restroomMarkerImages = [badRestroom, badRestroom, commonRestroom, commonRestroom, goldenRestroom]
+
+// Sidebar
+export const defaultRestroomHue: number = 200
