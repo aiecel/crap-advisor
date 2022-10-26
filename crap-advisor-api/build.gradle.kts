@@ -33,21 +33,26 @@ repositories {
     mavenCentral()
 }
 
+val springBootVersion = "2.7.5"
+val openApiVersion = "1.6.12"
+val mapstructVersion = "1.5.3.Final"
+
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-validation:2.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.0")
-    implementation("org.springdoc:springdoc-openapi-data-rest:1.6.11")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
-    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.11")
-    implementation("org.mapstruct:mapstruct:1.5.2.Final")
-    kapt("org.mapstruct:mapstruct-processor:1.5.2.Final")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.2")
+    implementation("org.springdoc:springdoc-openapi-data-rest:$openApiVersion")
+    implementation("org.springdoc:springdoc-openapi-ui:$openApiVersion")
+    implementation("org.springdoc:springdoc-openapi-kotlin:$openApiVersion")
+    implementation("org.mapstruct:mapstruct:$mapstructVersion")
+    developmentOnly("org.springframework.boot:spring-boot-devtools:$springBootVersion")
+    kapt("org.mapstruct:mapstruct-processor:$mapstructVersion")
     runtimeOnly("org.postgresql:postgresql:42.5.0")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
 
 tasks.withType<KotlinCompile> {

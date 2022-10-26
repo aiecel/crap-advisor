@@ -13,9 +13,10 @@ class Restroom(
     @Column(nullable = false)
     var name: String,
 
-    var rating: Double? = null,
-
     @Embedded
     var location: Location = Location()
 
-) : AbstractEntity()
+) : AbstractEntity() {
+
+    var rating: Double? = null
+}

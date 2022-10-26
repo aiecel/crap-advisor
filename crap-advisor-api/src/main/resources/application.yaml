@@ -6,12 +6,15 @@ spring:
   jpa:
     properties:
       hibernate.jdbc.time_zone: UTC
+logging:
+  level:
+    org.springframework.web.servlet.mvc.method.annotation: error
 
 ---
 
 spring:
   profiles:
-    active: test
+    active: dev
   jpa:
     hibernate:
       ddl-auto: update

@@ -1,6 +1,6 @@
 package com.aiecel.crapadvisor.service
 
-import com.aiecel.crapadvisor.api.model.AddRestroomRequest
+import com.aiecel.crapadvisor.model.Location
 import com.aiecel.crapadvisor.model.entity.Restroom
 import com.aiecel.crapadvisor.repository.RestroomRepository
 import mu.KotlinLogging
@@ -17,15 +17,8 @@ class RestroomService(private val restroomRepository: RestroomRepository) {
         return restrooms
     }
 
-    fun save(request: AddRestroomRequest): Restroom {
-        requireNotNull(request.name) { "Restroom name should be specified" }
-        requireNotNull(request.location) { "Restroom position should be specified" }
-        val savedRestroom = restroomRepository.save(
-            Restroom(
-                name = request.name,
-                location = request.location
-            )
-        )
+    fun save(name: String, location: Location): Restroom {
+        val savedRestroom = restroomRepository.save(Restroom(name, location))
         log.info("Saved new restroom with id ${savedRestroom.id}")
         return savedRestroom
     }
