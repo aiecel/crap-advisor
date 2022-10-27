@@ -1,6 +1,5 @@
 package com.aiecel.crapadvisor.api.model
 
-import com.aiecel.crapadvisor.model.Location
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
@@ -16,5 +15,5 @@ data class AddRestroomRequest(
     @field:NotNull
     @field:Valid
     @Schema(title = "Restroom coordinates", required = true)
-    val location: Location?
+    val location: LocationDto?
 )

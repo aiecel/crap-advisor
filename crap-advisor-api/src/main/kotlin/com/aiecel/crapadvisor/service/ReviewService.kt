@@ -1,12 +1,14 @@
 package com.aiecel.crapadvisor.service
 
-import com.aiecel.crapadvisor.api.model.AddReviewRequest
 import com.aiecel.crapadvisor.exception.NotFoundException
+import com.aiecel.crapadvisor.locale.MessageCode
+import com.aiecel.crapadvisor.locale.MessageSourceUtils.get
 import com.aiecel.crapadvisor.model.Marks
 import com.aiecel.crapadvisor.model.entity.Review
 import com.aiecel.crapadvisor.repository.RestroomRepository
 import com.aiecel.crapadvisor.repository.ReviewRepository
 import mu.KotlinLogging
+import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 import kotlin.math.roundToInt
@@ -14,38 +16,40 @@ import kotlin.math.roundToInt
 @Service
 class ReviewService(
     private val restroomRepository: RestroomRepository,
-    private val reviewRepository: ReviewRepository
+    private val reviewRepository: ReviewRepository,
+    private val messageSource: MessageSource
 ) {
 
     private val log = KotlinLogging.logger { }
 
-    fun getByRestroomId(restroomId: Long): List<Review> {
+    fun getAllByRestroomId(restroomId: Long): List<Review> {
         val reviews = reviewRepository.findAllByRestroomIdOrderByCreatedDesc(restroomId)
         log.debug("Fetched ${reviews.size} review(s) by restroom id $restroomId")
         return reviews
     }
 
     @Transactional
-    fun save(request: AddReviewRequest): Review {
-        requireNotNull(request.restroomId) { "Restroom id should be specified" }
-        requireNotNull(request.marks) { "Marks should be present in a review" }
-
-        val restroom = restroomRepository.findById(request.restroomId)
-            .orElseThrow { NotFoundException("Restroom with id ${request.restroomId} not found") }
+    fun save(restroomId: Long, marks: Marks, comment: String? = null): Review {
+        val restroom = restroomRepository.findById(restroomId)
+            .orElseThrow { NotFoundException(messageSource.get(MessageCode.RESTROOM_NOT_FOUND, restroomId)) }
 
         val savedReview = reviewRepository.save(
             Review(
                 restroom = restroom,
-                marks = request.marks,
-                rating = calculateRating(request.marks),
-                comment = request.comment?.ifBlank { null }
+                marks = marks,
+                rating = calculateRating(marks),
+                comment = comment?.ifBlank { null }
             )
         )
-        log.info("Saved new review with id ${savedReview.id} for restroom with id ${restroom.id}")
 
         restroom.rating = round(reviewRepository.getAverageReviewRatingByRestroomId(restroom.id))
         restroomRepository.save(restroom)
-        log.info("Saved new rating (${restroom.rating}) for restroom with id ${restroom.id}")
+
+        log.info(
+            "Saved new review with id ${savedReview.id} " +
+                    "for restroom with id $restroomId, " +
+                    "restroom rating is now ${restroom.rating}"
+        )
 
         return savedReview
     }

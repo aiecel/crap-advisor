@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Constraint(validatedBy = [MarkValidator::class])
 annotation class Mark(
-    val message: String = "оценка должна быть от 1 до 5!",
+    val message: String = "{validation.mark}",
     val groups: Array<KClass<*>> = [],
     val payload: Array<KClass<out Payload>> = []
 )

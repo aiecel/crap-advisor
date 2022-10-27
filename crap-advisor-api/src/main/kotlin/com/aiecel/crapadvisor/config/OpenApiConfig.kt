@@ -11,11 +11,11 @@ class OpenApiConfig {
 
     @Bean
     fun openApi(): OpenAPI {
-        return OpenAPI()
-            .info(
-                Info()
-                    .title("Crap Advisor Api")
-                    .contact(Contact().name("aiecel"))
-            )
+        return OpenAPI().info(
+            Info()
+                .title("Crap Advisor Api")
+                .version("1")
+                .contact(Contact().name("aiecel"))
+        )
     }
 }

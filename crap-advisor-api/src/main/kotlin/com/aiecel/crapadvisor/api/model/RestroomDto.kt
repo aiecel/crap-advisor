@@ -1,6 +1,5 @@
 package com.aiecel.crapadvisor.api.model
 
-import com.aiecel.crapadvisor.model.Location
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.ZonedDateTime
 
@@ -20,5 +19,5 @@ data class RestroomDto(
     val created: ZonedDateTime,
 
     @Schema(title = "Restroom coordinates")
-    val location: Location
+    val location: LocationDto
 )

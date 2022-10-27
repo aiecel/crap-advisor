@@ -7,10 +7,10 @@ import {Location} from "../typings";
 export const apiUrl = "http://192.168.0.102:8082";
 
 export enum ApiEndpoint {
-    GetAllRestrooms = '/restroom/all',
-    AddRestroom = '/restroom',
-    GetAllReviewsByRestroomId = '/review/restroom/',
-    AddReview = '/review',
+    GetAllRestrooms = '/restrooms',
+    AddRestroom = '/restrooms',
+    GetAllReviewsByRestroomId = '/reviews?restroomId=',
+    AddReview = '/reviews',
 }
 
 // Map
