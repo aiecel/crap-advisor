@@ -1,9 +1,11 @@
 import React from "react";
 import {AxiosError, AxiosResponse} from "axios";
-import {RequestType} from "../../app/typings";
-import {Api} from "../../app/api";
+import {RequestType, Location} from "app/typings";
+import {Api} from "app/api";
+import {useParams} from "react-router-dom";
+import {defaultLocation} from "app/constants";
 
-type Action<T> =
+type A<T> =
     | { type: "PENDING" }
     | { type: "FETCH_SUCCESS"; payload: T[] }
     | { type: "FETCH_FAILURE" };
@@ -17,11 +19,12 @@ type State<T> = {
 interface IUseDataApiProps<T> {
     state: State<T>;
     setUrl: React.Dispatch<React.SetStateAction<string>>;
+    selectedRestroom: Location
 }
 
 const createDataFetchReducer =
     <T>() =>
-        (state: State<T>, action: Action<T>): State<T> => {
+        (state: State<T>, action: A<T>): State<T> => {
             switch (action.type) {
                 case "PENDING":
                     return {
@@ -60,8 +63,10 @@ export const useDataApi = <T>(
         data: [],
     };
     const [url, setUrl] = React.useState<string>(initialUrl);
+    const [selectedRestroom, setSelectedRestroom] = React.useState<Location>(defaultLocation);
     const dataFetchReducer = createDataFetchReducer<T>();
     const [state, dispatch] = React.useReducer(dataFetchReducer, initialState);
+    const {restroomId} = useParams<{ restroomId: string }>();
 
     React.useEffect(() => {
         let didCancel: boolean = false;
@@ -74,6 +79,12 @@ export const useDataApi = <T>(
                             const {data}: AxiosResponse = await Api.getFromAPI(url);
                             if (!didCancel) {
                                 dispatch({type: "FETCH_SUCCESS", payload: data});
+                                if (restroomId) {
+                                    console.log(state.data)
+                                    // const currentLocation: Location = (state.data.find((restroom: any) => String(restroom.id) === restroomId) as any)?.location;
+                                    // console.log(currentLocation)
+                                    // setSelectedRestroom(currentLocation)
+                                }
                             }
                         }
                         break;
@@ -103,5 +114,5 @@ export const useDataApi = <T>(
         };
     }, [url]);
 
-    return {state, setUrl};
+    return {state, setUrl, selectedRestroom};
 };

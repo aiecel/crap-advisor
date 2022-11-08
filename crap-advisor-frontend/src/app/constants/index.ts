@@ -1,15 +1,15 @@
-import badRestroom from "../../assets/restroom_2.png";
-import commonRestroom from "../../assets/restroom_4.png";
-import goldenRestroom from "../../assets/restroom_5.png";
-import {Location} from "../typings";
+import badRestroom from "assets/restroom_2.png";
+import commonRestroom from "assets/restroom_4.png";
+import goldenRestroom from "assets/restroom_5.png";
+import {Location} from "app/typings";
 
 // Api
-export const apiUrl = "http://192.168.0.102:8082";
+export const apiUrl = "http://25.38.182.18:8082";
 
 export enum ApiEndpoint {
     GetAllRestrooms = '/restrooms',
     AddRestroom = '/restrooms',
-    GetAllReviewsByRestroomId = '/reviews?restroomId=',
+    GetAllReviewsByRestroomId = '/reviews',
     AddReview = '/reviews',
 }
 
