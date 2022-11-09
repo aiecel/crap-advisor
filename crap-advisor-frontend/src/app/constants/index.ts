@@ -2,8 +2,8 @@ import { Location } from 'app/typings';
 
 import {
   restroom_2 as badRestroom,
-  restroom_5 as commonRestroom,
-  restroom_4 as goldenRestroom,
+  restroom_4 as commonRestroom,
+  restroom_5 as goldenRestroom,
 } from 'assets';
 
 // Api
