@@ -16,6 +16,22 @@ kapt {
     }
 }
 
+noArg {
+    annotations(
+        "jakarta.persistence.Entity",
+        "jakarta.persistence.MappedSuperclass",
+        "jakarta.persistence.Embeddable"
+    )
+}
+
+allOpen {
+    annotations(
+        "jakarta.persistence.Entity",
+        "jakarta.persistence.MappedSuperclass",
+        "jakarta.persistence.Embeddable"
+    )
+}
+
 group = "com.aiecel"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
