@@ -1,7 +1,7 @@
 package com.aiecel.crapadvisor.model.entity
 
 import com.aiecel.crapadvisor.model.Marks
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "reviews")

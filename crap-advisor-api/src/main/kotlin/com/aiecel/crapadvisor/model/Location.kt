@@ -1,7 +1,7 @@
 package com.aiecel.crapadvisor.model
 
-import javax.persistence.Column
-import javax.persistence.Embeddable
+import jakarta.persistence.Column
+import jakarta.persistence.Embeddable
 
 @Embeddable
 class Location(

@@ -10,12 +10,11 @@ import org.springframework.context.annotation.Configuration
 class OpenApiConfig {
 
     @Bean
-    fun openApi(): OpenAPI {
-        return OpenAPI().info(
+    fun openApi(): OpenAPI =
+        OpenAPI().info(
             Info()
                 .title("Crap Advisor Api")
-                .version("1")
+                .version("v1")
                 .contact(Contact().name("aiecel"))
         )
-    }
 }

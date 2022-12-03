@@ -1,9 +1,10 @@
 package com.aiecel.crapadvisor.validation
 
-import javax.validation.Constraint
-import javax.validation.Payload
+import jakarta.validation.Constraint
+import jakarta.validation.Payload
 import kotlin.reflect.KClass
 
+@Suppress("unused")
 @Target(AnnotationTarget.FIELD)
 @MustBeDocumented
 @Constraint(validatedBy = [MarkValidator::class])

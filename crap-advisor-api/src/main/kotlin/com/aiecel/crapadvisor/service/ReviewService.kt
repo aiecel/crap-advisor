@@ -2,15 +2,15 @@ package com.aiecel.crapadvisor.service
 
 import com.aiecel.crapadvisor.exception.NotFoundException
 import com.aiecel.crapadvisor.locale.MessageCode
-import com.aiecel.crapadvisor.locale.MessageSourceUtils.get
+import com.aiecel.crapadvisor.locale.get
 import com.aiecel.crapadvisor.model.Marks
 import com.aiecel.crapadvisor.model.entity.Review
 import com.aiecel.crapadvisor.repository.RestroomRepository
 import com.aiecel.crapadvisor.repository.ReviewRepository
+import jakarta.transaction.Transactional
 import mu.KotlinLogging
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
-import javax.transaction.Transactional
 import kotlin.math.roundToInt
 
 @Service
@@ -38,11 +38,11 @@ class ReviewService(
                 restroom = restroom,
                 marks = marks,
                 rating = calculateRating(marks),
-                comment = comment?.ifBlank { null }
+                comment = comment?.trim()?.ifBlank { null }
             )
         )
 
-        restroom.rating = round(reviewRepository.getAverageReviewRatingByRestroomId(restroom.id))
+        restroom.rating = reviewRepository.getAverageReviewRatingByRestroomId(restroom.id).round()
         restroomRepository.save(restroom)
 
         log.info(
@@ -59,8 +59,8 @@ class ReviewService(
                 (marks.secondaryFixtures ?: 3) * 3.0 +
                 (marks.cleanness ?: 3) * 2.0 +
                 (marks.comfort ?: 3) * 1.0) / 10
-        return round(rating)
+        return rating.round()
     }
 
-    private fun round(double: Double) = (double * 10).roundToInt() / 10.0
+    private fun Double.round() = (this * 10).roundToInt() / 10.0
 }

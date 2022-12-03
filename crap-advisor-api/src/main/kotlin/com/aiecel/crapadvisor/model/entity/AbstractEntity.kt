@@ -1,8 +1,8 @@
 package com.aiecel.crapadvisor.model.entity
 
+import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.time.ZonedDateTime
-import javax.persistence.*
 
 @MappedSuperclass
 abstract class AbstractEntity {

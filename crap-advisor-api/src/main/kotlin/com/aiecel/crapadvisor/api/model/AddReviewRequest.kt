@@ -1,9 +1,9 @@
 package com.aiecel.crapadvisor.api.model
 
 import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotNull
 import org.hibernate.validator.constraints.Length
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
 
 @Schema(title = "Add Review Request")
 data class AddReviewRequest(
