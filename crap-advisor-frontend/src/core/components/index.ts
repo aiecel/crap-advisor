@@ -1,4 +1,6 @@
-import Map from "./Map"
-import Sidebar from "./Sidebar"
+import Map from './Map';
+import RestroomMarker from './RestroomMarker';
+import Sidebar from './Sidebar';
+import Review from './Sidebar/Review';
 
-export {Map, Sidebar}
+export { Map, Sidebar, RestroomMarker, Review };

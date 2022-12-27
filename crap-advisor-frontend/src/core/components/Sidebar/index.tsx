@@ -1,54 +1,69 @@
-import React, {useEffect} from "react";
-import Review from "./Review";
-import {ApiEndpoint} from "../../../app/constants";
-import {IReview, Restroom} from "../../../app/typings";
-import {useDataApi} from "../../../hooks/useDataApi";
-import "./index.css";
-import "../../../style/main.css";
+import React from 'react';
 
-interface ISidebarProps {
-    selectedRestroom: Restroom | null;
-}
+import { Review } from 'core/components';
 
-const Sidebar = ({selectedRestroom}: ISidebarProps): JSX.Element => {
+import { useAppDispatch, useAppSelector } from 'app/typings/redux';
 
-    const url = `${ApiEndpoint.GetAllReviewsByRestroomId}${selectedRestroom && selectedRestroom.id}`;
-    const {setUrl, state: {data: reviews}} = useDataApi<IReview>(url, [], "GET");
+import { clearCurrentRestroom, start } from 'store/reviews/slice';
 
-    useEffect(() => {
-        if (selectedRestroom) {
-            setUrl(url);
-        }
-    }, [selectedRestroom])
+import { getRestroomIdFromURL } from 'utils';
 
-    return (
-        <div className="sidebar">
-            <p className="logo">Crap Advisor</p>
-            {!selectedRestroom && (
-                <>
-                    <p className="welcome">Добро пожаловать!<br/>Выберите уборную...</p>
-                </>
+import 'style/main.css';
+
+import './index.css';
+
+const Sidebar = (): JSX.Element => {
+  const { result: reviews, currentRestroom } = useAppSelector(
+    (state) => state.REVIEWS
+  );
+  const [restroomFromURL] = React.useState(getRestroomIdFromURL());
+
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    if (!restroomFromURL) {
+      dispatch(clearCurrentRestroom());
+    } else dispatch(start(restroomFromURL));
+  }, []);
+
+  return (
+    <div className="sidebar">
+      <p className="logo">Crap Advisor</p>
+      {!currentRestroom && (
+        <>
+          <p className="welcome">
+            Добро пожаловать!
+            <br />
+            Выберите уборную...
+          </p>
+        </>
+      )}
+      {currentRestroom && (
+        <>
+          <section className="section-restroom">
+            <p className="restroom-created">
+              {new Date(currentRestroom.created).toLocaleDateString()}
+            </p>
+            <p className="restroom-name">{currentRestroom.name}</p>
+            {currentRestroom.rating && (
+              <p className="restroom-rating">{currentRestroom.rating}</p>
             )}
-            {selectedRestroom && (
-                <>
-                    <section className="section-restroom">
-                        <p className="restroom-created">{new Date(selectedRestroom.created).toLocaleDateString()}</p>
-                        <p className="restroom-name">{selectedRestroom.name}</p>
-                        {selectedRestroom.rating && <p className="restroom-rating">{selectedRestroom.rating}</p>}
-                        <p className="restroom-reviews-count">
-                            {reviews.length === 0 ? "Нет визитов" : "Визитов: " + reviews.length}
-                        </p>
-                    </section>
-                    <section className="section-reviews">
-                        <button className="button-add-review">Добавить отзыв</button>
-                        {reviews.map((review) => {
-                            return <Review key={review.id} review={review}/>;
-                        })}
-                    </section>
-                </>
-            )}
-        </div>
-    );
+            <p className="restroom-reviews-count">
+              {reviews.length === 0
+                ? 'Нет визитов'
+                : 'Визитов: ' + reviews.length}
+            </p>
+          </section>
+          <section className="section-reviews">
+            <button className="button-add-review">Добавить отзыв</button>
+            {reviews.map((review) => {
+              return <Review key={review.id} review={review} />;
+            })}
+          </section>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Sidebar;
