@@ -1,11 +1,11 @@
 package com.aiecel.crapadvisor.model
 
-import javax.persistence.Embeddable
+import jakarta.persistence.Embeddable
 
 @Embeddable
 class Marks(
-    var primaryFixtures: Int?,
-    var secondaryFixtures: Int?,
-    var cleanness: Int?,
-    var comfort: Int?
+    var primaryFixtures: Int? = null,
+    var secondaryFixtures: Int? = null,
+    var cleanness: Int? = null,
+    var comfort: Int? = null
 )
