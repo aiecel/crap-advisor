@@ -16,7 +16,6 @@ function SetMapToSelectedRestroom(): null {
   const { currentRestroom } = useAppSelector((state) => state.REVIEWS);
   const map = useMap();
   React.useEffect(() => {
-    map.getCenter();
     if (currentRestroom) {
       map.setView(toLatLngExpression(currentRestroom.location));
     }

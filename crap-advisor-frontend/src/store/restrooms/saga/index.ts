@@ -18,11 +18,7 @@ import { Restroom } from 'app/typings';
 
 import { error, start, success } from 'store/restrooms/slice';
 
-export function* getRestroomsSaga(): Generator<
-  StrictEffect,
-  void,
-  AxiosResponse<Restroom[]>
-> {
+export function* getRestroomsSaga(): Generator<StrictEffect, void, AxiosResponse<Restroom[]>> {
   try {
     const { data } = yield call(Api.getFromAPI, ApiEndpoint.GetAllRestrooms);
     yield put(success(data));
@@ -33,8 +29,6 @@ export function* getRestroomsSaga(): Generator<
   }
 }
 
-export function* watchGetRestroomSaga(
-  dispatch: Dispatch<unknown>
-): SagaIterator {
+export function* watchGetRestroomSaga(): SagaIterator {
   all([yield takeEvery(start.type, getRestroomsSaga)]);
 }

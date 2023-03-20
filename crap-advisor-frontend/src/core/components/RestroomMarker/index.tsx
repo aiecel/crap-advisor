@@ -74,15 +74,11 @@ const RestroomMarker = ({ restroom }: IRestroomMakerProps): JSX.Element => {
 
   return (
     <Marker
-      position={toLatLngExpression(restroom.location) as LatLngExpression}
+      position={toLatLngExpression(restroom.location)}
       icon={icon}
       eventHandlers={{ click: handleMarkerClick }}
     >
-      <Tooltip
-        className="marker-tooltip outlined"
-        direction="top"
-        offset={[0, -10]}
-      >
+      <Tooltip className="marker-tooltip outlined" direction="top" offset={[0, -10]}>
         {restroom.name}
       </Tooltip>
     </Marker>

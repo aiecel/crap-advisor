@@ -13,9 +13,7 @@ export const params2form = (payload: Record<string, Primitive | Primitive[]>): s
           .map((item) => `${encodeURIComponent(key)}=${encodeURIComponent(item)}`)
           .join('&');
       }
-      return `${encodeURIComponent(key)}=${encodeURIComponent(
-        payload[key] as Primitive
-      )}`;
+      return `${encodeURIComponent(key)}=${encodeURIComponent(payload[key] as Primitive)}`;
     })
     .join('&');
 
@@ -27,7 +25,7 @@ export const toLatLngExpression = (location: Location): LatLngExpression => [
 export const getRestroomIdFromURL = () => {
   const urlParam = window.location.pathname;
   const result = urlParam.replace('/restroom/', '');
-  return result === '/' ? undefined : result;
+  return result !== '/' ? result : false;
 };
 
 export function sleep(sec: number) {

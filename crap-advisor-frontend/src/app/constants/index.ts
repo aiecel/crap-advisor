@@ -7,7 +7,7 @@ import {
 } from 'assets';
 
 // Api
-export const apiUrl = 'http://25.38.182.18:8082';
+export const apiUrl = process.env.REACT_APP_ENV_API_ENDPOINT || 'http://25.38.182.18:8082';
 
 export enum ApiEndpoint {
   GetAllRestrooms = '/restrooms',
