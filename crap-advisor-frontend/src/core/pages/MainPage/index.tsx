@@ -1,27 +1,28 @@
-import React, {useState} from "react";
-import {Map, Sidebar} from "../../components";
-import "./index.css";
-import "../../../style/main.css";
-import {Restroom} from "../../../app/typings";
-import {defaultRestroomHue} from "../../../app/constants";
+import React from 'react';
+
+import { Map, Sidebar } from 'core/components';
+
+import { useAppDispatch } from 'app/typings/redux';
+
+import { start } from 'store/restrooms/slice';
+
+import 'style/main.css';
+
+import './index.css';
 
 const MainPage = (): JSX.Element => {
-    const [selectedRestroom, setSelectedRestroom] = useState<Restroom | null>(null);
+  const dispatch = useAppDispatch();
 
-    const selectRestroom = (restroomToSelect: Restroom): void => {
-        if (selectedRestroom !== restroomToSelect) {
-            setSelectedRestroom(restroomToSelect);
-            const hue = restroomToSelect.rating ? (restroomToSelect.rating - 1) * 20 : defaultRestroomHue
-            document.documentElement.style.setProperty('--restroom-hue', `${hue}`);
-        }
-    };
+  React.useEffect(() => {
+    dispatch(start());
+  }, []);
 
-    return (
-        <main className="mainContainer">
-            <Sidebar selectedRestroom={selectedRestroom}/>
-            <Map selectRestroom={selectRestroom}/>
-        </main>
-    );
+  return (
+    <main className="mainContainer">
+      <Sidebar />
+      <Map />
+    </main>
+  );
 };
 
 export default MainPage;
