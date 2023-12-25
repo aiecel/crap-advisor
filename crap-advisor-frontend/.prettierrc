@@ -1,24 +1,4 @@
 {
-  "printWidth": 96,
-  "singleQuote": true,
-  "trailingComma": "es5",
-  "tabWidth": 2,
-  "useTabs": false,
-  "endOfLine": "auto",
-  "importOrder": [
-    "^react",
-    "<THIRD_PARTY_MODULES>",
-    "^(core)(/(.*)|$)$",
-    "^(app)(/(.*)|$)$",
-    "^(store|typings)(/(.*)|$)$",
-    "^(assets|utils)(/(.*)|$)$",
-    "\\../",
-    "\\./index\\.types",
-    "^(style)(/(.*)|$)$",
-    "\\./index\\.scss",
-    "^[./]"
-  ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
-  "importOrderGroupNamespaceSpecifiers": true
+    "tabWidth": 4,
+    "arrowParens": "avoid"
 }
