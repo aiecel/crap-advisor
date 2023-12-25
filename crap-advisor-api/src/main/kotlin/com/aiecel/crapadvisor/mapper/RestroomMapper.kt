@@ -1,13 +1,23 @@
 package com.aiecel.crapadvisor.mapper
 
-import com.aiecel.crapadvisor.api.model.LocationDto
 import com.aiecel.crapadvisor.api.model.RestroomDto
-import com.aiecel.crapadvisor.model.Location
 import com.aiecel.crapadvisor.model.entity.Restroom
+import com.aiecel.crapadvisor.util.round
 import org.mapstruct.Mapper
+import org.mapstruct.Mapping
+import org.mapstruct.Named
 
-@Mapper
+@Mapper(uses = [LocationMapper::class])
 interface RestroomMapper {
+
+    @Mapping(target = "cityId", source = "city.id")
+    @Mapping(target = "rating", qualifiedByName = ["round"])
     fun map(restroom: Restroom): RestroomDto
-    fun map(location: LocationDto): Location
+
+    companion object {
+
+        @JvmStatic
+        @Named(value = "round")
+        fun map(double: Double) = double.round()
+    }
 }

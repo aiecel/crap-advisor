@@ -1,6 +1,6 @@
 package com.aiecel.crapadvisor.exception
 
-class NotFoundException(
+class GeocoderException(
     message: String? = null,
-    cause: Throwable? = null,
+    cause: Throwable? = null
 ) : RuntimeException(message, cause)

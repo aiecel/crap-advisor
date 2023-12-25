@@ -5,7 +5,10 @@ import jakarta.persistence.Column
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.JoinTable
+import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 
 @Entity
@@ -17,11 +20,28 @@ class Review(
     val restroom: Restroom,
 
     @Embedded
-    val marks: Marks,
+    var marks: Marks,
 
-    val rating: Double?,
+    @Column(nullable = false)
+    var rating: Double,
 
     @Column(length = 1000)
-    val comment: String?
+    var comment: String? = null,
+
+    @OneToMany
+    @JoinTable(
+        name = "review_images",
+        joinColumns = [JoinColumn(name = "review_id")],
+        inverseJoinColumns = [JoinColumn(name = "image_id")]
+    )
+    var images: MutableList<Image> = mutableListOf(),
+
+    @ManyToMany
+    @JoinTable(
+        name = "review_tags",
+        joinColumns = [JoinColumn(name = "review_id")],
+        inverseJoinColumns = [JoinColumn(name = "tag_id")]
+    )
+    var tags: MutableList<Tag> = mutableListOf()
 
 ) : AbstractEntity()

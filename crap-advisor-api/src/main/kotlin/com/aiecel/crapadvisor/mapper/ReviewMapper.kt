@@ -7,7 +7,7 @@ import com.aiecel.crapadvisor.model.entity.Review
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 
-@Mapper
+@Mapper(uses = [TagMapper::class, ImageMapper::class])
 interface ReviewMapper {
 
     @Mapping(target = "restroomId", source = "restroom.id")

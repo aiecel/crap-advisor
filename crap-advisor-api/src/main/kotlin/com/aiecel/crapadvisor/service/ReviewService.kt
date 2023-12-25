@@ -1,23 +1,25 @@
 package com.aiecel.crapadvisor.service
 
 import com.aiecel.crapadvisor.exception.NotFoundException
-import com.aiecel.crapadvisor.locale.MessageCode
-import com.aiecel.crapadvisor.locale.get
 import com.aiecel.crapadvisor.model.Marks
+import com.aiecel.crapadvisor.model.dto.ImageToSave
 import com.aiecel.crapadvisor.model.entity.Review
 import com.aiecel.crapadvisor.repository.RestroomRepository
 import com.aiecel.crapadvisor.repository.ReviewRepository
+import com.aiecel.crapadvisor.util.round
 import jakarta.transaction.Transactional
 import mu.KotlinLogging
-import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
-import kotlin.math.roundToInt
+import org.springframework.web.multipart.MultipartFile
+import java.util.Collections.emptyList
 
 @Service
 class ReviewService(
+    private val restroomService: RestroomService,
+    private val imageService: ImageService,
+    private val tagService: TagService,
     private val restroomRepository: RestroomRepository,
     private val reviewRepository: ReviewRepository,
-    private val messageSource: MessageSource
 ) {
 
     private val log = KotlinLogging.logger { }
@@ -29,24 +31,39 @@ class ReviewService(
     }
 
     @Transactional
-    fun save(restroomId: Long, marks: Marks, comment: String? = null): Review {
+    fun addNewReview(
+        restroomId: Long,
+        marks: Marks,
+        comment: String? = null,
+        imagesFiles: List<MultipartFile> = emptyList(),
+        tagNames: List<String> = emptyList(),
+    ): Review {
         val restroom = restroomRepository.findById(restroomId)
-            .orElseThrow { NotFoundException(messageSource.get(MessageCode.RESTROOM_NOT_FOUND, restroomId)) }
+            .orElseThrow { NotFoundException("Restroom with id $restroomId not found") }
+
+        val images = imageService.saveImages(
+            imagesFiles.mapIndexed { i, file ->
+                ImageToSave("review-images/${i + 1}", file)
+            }
+        ).toMutableList()
+
+        val tags = tagNames.map { tagService.getOrCreate(it) }.toMutableList()
 
         val savedReview = reviewRepository.save(
             Review(
                 restroom = restroom,
                 marks = marks,
                 rating = calculateRating(marks),
-                comment = comment?.trim()?.ifBlank { null }
+                comment = comment?.trim()?.ifBlank { null },
+                images = images,
+                tags = tags
             )
         )
 
-        restroom.rating = reviewRepository.getAverageReviewRatingByRestroomId(restroom.id).round()
-        restroomRepository.save(restroom)
+        restroomService.updateRestroomRating(restroomId)
 
         log.info(
-            "Saved new review with id ${savedReview.id} " +
+            "Added new review with id ${savedReview.id} " +
                     "for restroom with id $restroomId, " +
                     "restroom rating is now ${restroom.rating}"
         )
@@ -61,6 +78,4 @@ class ReviewService(
                 (marks.comfort ?: 3) * 1.0) / 10
         return rating.round()
     }
-
-    private fun Double.round() = (this * 10).roundToInt() / 10.0
 }

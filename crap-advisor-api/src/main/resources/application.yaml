@@ -1,15 +1,37 @@
-server.port: 8082
-
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
   jackson:
     time-zone: UTC
   jpa:
     properties:
       hibernate.jdbc.time_zone: UTC
+  cloud:
+    openfeign.client.config:
+      yandex-geocode:
+        default-request-headers:
+          Referer: ${server.host}
 
 logging:
   level:
     org.springframework.web.servlet.mvc.method.annotation: error
+
+yandex:
+  geocode:
+    host: https://geocode-maps.yandex.ru/1.x
+
+minio:
+  filePartSize: 10000000
+
+images:
+  bucket: public-images
+  original:
+    scale: 1
+    quality: 0.7
+  thumbnail:
+    scale: 0.4
+    quality: 0.4
 
 ---
 
@@ -19,12 +41,29 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/crap-advisor
     username: postgres
     password: postgres
+  cloud:
+    openfeign.client.config:
+      yandex-geocode:
+        loggerLevel: FULL
+
+server:
+  host: http://localhost
+  port: 8082
 
 logging:
   level:
     com.aiecel.crapadvisor: debug
+
+yandex:
+  apiKey: 1979b9d5-98ad-4ff1-8015-c4de94371af1
+
+minio:
+  host: http://localhost:9000
+  username: admin
+  password: password

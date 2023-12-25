@@ -6,10 +6,10 @@ import java.time.ZonedDateTime
 @Schema(title = "Review Info")
 data class ReviewDto(
 
-    @Schema(title = "Id")
+    @Schema(title = "ID")
     val id: Long,
 
-    @Schema(title = "Id of the reviewed restroom")
+    @Schema(title = "ID of the reviewed restroom")
     val restroomId: Long,
 
     @Schema(title = "Creation datetime")
@@ -22,5 +22,11 @@ data class ReviewDto(
     val rating: Double,
 
     @Schema(title = "Reviewer's comment")
-    val comment: String?
+    val comment: String?,
+
+    @Schema(title = "Review images")
+    val images: List<ImageDto>,
+
+    @Schema(title = "Review tags")
+    val tags: List<TagDto>
 )
